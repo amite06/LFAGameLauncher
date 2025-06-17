@@ -1,23 +1,45 @@
 # Game Launcher React App
 
-This is a React + TypeScript game launcher. The main page displays two large video buttons, each with a header and video face. Clicking a button should launch a .exe file (requires Electron or backend for real implementation).
+This is the LFA game launcher. The main page displays two large video buttons, each with a header and video face. Clicking a button launches a .exe file (when running in Electron).
 
 ## How to Use
 
-- Replace the placeholder video files in `public/` with your own game preview videos.
-- To actually launch `.exe` files, you must use Electron or a backend server. The current implementation only shows a placeholder alert.
+- Configure your games and video paths in `public/games-config.json`.
+- Place your video files in `public/videos/` (this folder is not tracked by git).
 
 ## Development
 
 ```sh
 npm install
-npm run dev
+npm run electron:dev
 ```
+
+This will launch the Electron app in development mode with hot reload.
+
+## Building a Standalone Windows App
+
+```sh
+npm run build:react
+npm run build:electron
+```
+
+The installer and unpacked app will be in the `dist/` folder.
 
 ## Customization
 
-- Edit `src/App.tsx` to change game names, video sources, and .exe paths.
+- Edit `public/games-config.json` to add or change games, video files, and .exe paths.
 - Update styles in `src/App.css` for layout tweaks.
+
+## Prerequisites
+
+- **Node.js**: Download and install from [https://nodejs.org/](https://nodejs.org/)
+  - Download the LTS version for your operating system (Windows, macOS, or Linux).
+  - After installation, verify with:
+    ```sh
+    node --version
+    npm --version
+    ```
+- **Git** (optional, for cloning): Download from [https://git-scm.com/](https://git-scm.com/)
 
 ---
 
