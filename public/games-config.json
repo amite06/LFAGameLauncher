@@ -1,0 +1,14 @@
+{
+  "games": [
+    {
+      "name": "DALSHI",
+      "video": "/videos/dalshi_trailer.mp4",
+      "exe": "C:/Users/amite/Desktop/A folder as empty as my soul/LFA/dalshi_package/ProjectJeju.exe"
+    },
+    {
+      "name": "Visions After Earth",
+      "video": "/videos/Visions After Earth- trailer.mp4",
+      "exe": "C:/Users/amite/Desktop/A folder as empty as my soul/Design/Game/Windows/Visions_After_Earth.exe"
+    }
+  ]
+}

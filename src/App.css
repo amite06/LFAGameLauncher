@@ -1,0 +1,188 @@
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  box-sizing: border-box;
+  background: #181a20;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+}
+
+.launcher-container {
+  flex: 1 1 auto;
+  display: flex;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background: #181a20;
+  position: relative;
+  overflow: hidden;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+.game-button {
+  flex: 1 1 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  border: none;
+  margin: 0;
+  padding: 0;
+  background: #23272f;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: filter 0.2s;
+  z-index: 1;
+  min-width: 0;
+  min-height: 0;
+}
+.game-button:hover {
+  filter: brightness(1.1) drop-shadow(0 0 16px #00bfff44);
+}
+.game-button.selected {
+  outline: 4px solid #00bfff;
+  z-index: 3;
+  box-shadow: 0 0 24px #00bfff99;
+}
+
+/* Vertical border for desktop */
+.launcher-container::before {
+  content: "";
+  position: absolute;
+  top: 5%;
+  bottom: 5%;
+  left: 50%;
+  width: 4px;
+  background: linear-gradient(180deg, #00bfff 0%, #23272f 100%);
+  border-radius: 2px;
+  z-index: 2;
+  box-shadow: 0 0 16px #00bfff88;
+}
+
+.game-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(24,26,32,0.85);
+  color: #fff;
+  font-size: 2.2rem;
+  font-weight: bold;
+  text-align: center;
+  padding: 1.2rem 0 0.7rem 0;
+  z-index: 2;
+  letter-spacing: 0.05em;
+  text-shadow: 0 2px 8px #000a;
+}
+
+/* Special font for Vision After Earth */
+.game-header.vision-after-earth {
+  font-family: 'Nebula', sans-serif;
+}
+
+.game-header.dalshi {
+  font-family: 'HelveticaNeueBold', Arial, Helvetica, sans-serif;
+  font-weight: bold;
+}
+
+.game-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  border: none;
+  background: #111;
+  display: block;
+}
+
+@media (max-width: 900px) {
+  .launcher-container {
+    flex-direction: column;
+  }
+  .launcher-container::before {
+    left: 0;
+    top: 50%;
+    width: 100%;
+    height: 4px;
+    min-height: 4px;
+    background: linear-gradient(90deg, #00bfff 0%, #23272f 100%);
+    box-shadow: 0 0 16px #00bfff88;
+    border-radius: 2px;
+  }
+  .game-button {
+    min-height: 40vh;
+    min-width: 100vw;
+  }
+  .game-video {
+    height: 40vh;
+  }
+}
+
+@font-face {
+  font-family: 'Nebula';
+  src: url('/fonts/Nebula-Regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'HelveticaNeueBold';
+  src: url('/fonts/HelveticaNeueBold.otf') format('opentype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+.game-header.selected {
+  background: linear-gradient(90deg, #00bfff 10%, #23272f 100%);
+  color: #fff;
+  text-shadow: 0 2px 16px #00bfff, 0 2px 8px #000a;
+  box-shadow: 0 0 16px #00bfff99;
+  border-bottom: 4px solid #00bfff;
+  border-radius: 0 0 12px 12px;
+  transition: background 0.2s, box-shadow 0.2s;
+}
