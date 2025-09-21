@@ -10,16 +10,12 @@ function launchExe(exePath: string) {
   }
 }
 
-const GameButton = React.forwardRef<HTMLButtonElement, { name: string; video: string; exe: string; selected?: boolean }>(
-  ({ name, video, exe, selected = false }, ref) => {
-    // Add a special class for Vision After Earth
-    let headerClass =
-      name === 'Visions After Earth'
-        ? 'game-header vision-after-earth'
-        : name === 'DALSHI'
-          ? 'game-header dalshi'
-          : 'game-header';
+const GameButton = React.forwardRef<HTMLButtonElement, { name: string; video: string; exe: string; font?: string; selected?: boolean }>(
+  ({ name, video, exe, font, selected = false }, ref) => {
+    let headerClass = 'game-header';
     if (selected) headerClass += ' selected';
+    // Inline style for font-family from config
+    const headerStyle = font ? { fontFamily: `'${font}', Arial, Helvetica, sans-serif` } : undefined;
     return (
       <button
         className={`game-button${selected ? ' selected' : ''}`}
@@ -28,7 +24,7 @@ const GameButton = React.forwardRef<HTMLButtonElement, { name: string; video: st
         tabIndex={selected ? 0 : -1}
         aria-pressed={selected}
       >
-        <div className={headerClass}>{name}</div>
+        <div className={headerClass} style={headerStyle}>{name}</div>
         <video
           className="game-video"
           src={video}
@@ -44,7 +40,7 @@ const GameButton = React.forwardRef<HTMLButtonElement, { name: string; video: st
 );
 
 function App() {
-  const [games, setGames] = useState<Array<{ name: string; video: string; exe: string }>>([]);
+  const [games, setGames] = useState<Array<{ name: string; video: string; exe: string; font?: string; fontPath?: string }>>([]);
   const [selected, setSelected] = useState(0); // 0: left, 1: right
   const btnRefs = [useRef<HTMLButtonElement>(null), useRef<HTMLButtonElement>(null)];
 
@@ -54,6 +50,25 @@ function App() {
       .then((res) => res.json())
       .then((data) => setGames(data.games || []));
   }, []);
+
+  // Inject @font-face rules for each game's font
+  useEffect(() => {
+    const styleId = 'dynamic-font-faces';
+    let styleTag = document.getElementById(styleId) as HTMLStyleElement | null;
+    if (!styleTag) {
+      styleTag = document.createElement('style');
+      styleTag.id = styleId;
+      document.head.appendChild(styleTag);
+    }
+    const fontFaces = games
+      .filter(g => g.font && g.fontPath)
+      .map(g => `@font-face { font-family: '${g.font}'; src: url('${g.fontPath}') format('opentype'); font-style: normal; font-weight: normal; }`)
+      .join('\n');
+    styleTag.textContent = fontFaces;
+    return () => {
+      if (styleTag) styleTag.textContent = '';
+    };
+  }, [games]);
 
   // Gamepad support: only allow left if not already on first, right if not already on last
   useEffect(() => {

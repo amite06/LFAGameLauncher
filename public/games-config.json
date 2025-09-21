@@ -1,14 +1,18 @@
 {
   "games": [
     {
-      "name": "",
-      "video": "/videos/",
-      "exe": ""
+      "name": "DALSHI",
+      "video": "/videos/dalshi_trailer.mp4",
+      "exe": "C:/Users/amite/Desktop/A folder as empty as my soul/LFA/dalshi_package/ProjectJeju.exe",
+      "font": "HelveticaNeueBold",
+      "fontPath": "/fonts/HelveticaNeueBold.otf"
     },
     {
-      "name": "",
-      "video": "/videos/",
-      "exe": ""
+      "name": "Visions After Earth",
+      "video": "/videos/Visions After Earth- trailer.mp4",
+      "exe": "C:/Users/amite/Desktop/A folder as empty as my soul/Design/Game/Windows/Visions_After_Earth.exe",
+      "font": "Nebula",
+      "fontPath": "/fonts/Nebula-Regular.otf"
     }
   ]
 }

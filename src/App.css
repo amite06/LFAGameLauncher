@@ -72,7 +72,7 @@ html, body, #root {
   border: none;
   margin: 0;
   padding: 0;
-  background: #23272f;
+  background: #2f2323;
   cursor: pointer;
   position: relative;
   overflow: hidden;
@@ -82,12 +82,12 @@ html, body, #root {
   min-height: 0;
 }
 .game-button:hover {
-  filter: brightness(1.1) drop-shadow(0 0 16px #00bfff44);
+  filter: brightness(1.1) drop-shadow(0 0 16px #8C111144);
 }
 .game-button.selected {
-  outline: 4px solid #00bfff;
+  outline: 4px solid #8C1111;
   z-index: 3;
-  box-shadow: 0 0 24px #00bfff99;
+  box-shadow: 0 0 24px #8C111199;
 }
 
 /* Vertical border for desktop */
@@ -98,10 +98,10 @@ html, body, #root {
   bottom: 5%;
   left: 50%;
   width: 4px;
-  background: linear-gradient(180deg, #00bfff 0%, #23272f 100%);
+  background: linear-gradient(180deg, #8C1111 0%, #2f2323 100%);
   border-radius: 2px;
   z-index: 2;
-  box-shadow: 0 0 16px #00bfff88;
+  box-shadow: 0 0 16px #8C111188;
 }
 
 .game-header {
@@ -150,8 +150,8 @@ html, body, #root {
     width: 100%;
     height: 4px;
     min-height: 4px;
-    background: linear-gradient(90deg, #00bfff 0%, #23272f 100%);
-    box-shadow: 0 0 16px #00bfff88;
+    background: linear-gradient(90deg, #8C1111 0%, #2f2323 100%);
+    box-shadow: 0 0 16px #8C111188;
     border-radius: 2px;
   }
   .game-button {
@@ -163,26 +163,12 @@ html, body, #root {
   }
 }
 
-@font-face {
-  font-family: 'Nebula';
-  src: url('/fonts/Nebula-Regular.otf') format('opentype');
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'HelveticaNeueBold';
-  src: url('/fonts/HelveticaNeueBold.otf') format('opentype');
-  font-weight: bold;
-  font-style: normal;
-}
-
 .game-header.selected {
-  background: linear-gradient(90deg, #00bfff 10%, #23272f 100%);
+  background: linear-gradient(90deg, #8C1111 10%, #2f2323 100%);
   color: #fff;
-  text-shadow: 0 2px 16px #00bfff, 0 2px 8px #000a;
-  box-shadow: 0 0 16px #00bfff99;
-  border-bottom: 4px solid #00bfff;
+  text-shadow: 0 2px 16px #8C1111, 0 2px 8px #000a;
+  box-shadow: 0 0 16px #8C111199;
+  border-bottom: 4px solid #8C1111;
   border-radius: 0 0 12px 12px;
   transition: background 0.2s, box-shadow 0.2s;
 }
