@@ -172,3 +172,32 @@ html, body, #root {
   border-radius: 0 0 12px 12px;
   transition: background 0.2s, box-shadow 0.2s;
 }
+
+/* Toast notifications */
+.toast-container {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  z-index: 9999;
+  pointer-events: none;
+}
+.toast {
+  pointer-events: auto;
+  background: rgba(30,30,30,0.95);
+  color: #fff;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.6);
+  transform: translateY(10px) scale(0.98);
+  opacity: 0;
+  transition: transform 240ms cubic-bezier(.2,.9,.3,1), opacity 240ms ease;
+  font-size: 0.95rem;
+  max-width: 320px;
+}
+.toast.show {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}

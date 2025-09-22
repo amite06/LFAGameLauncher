@@ -1,12 +1,54 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './App.css'
 
+const LAUNCH_DEBOUNCE_MS = 10_000; // 10 seconds
+const launchLocks: Map<string, number> = new Map();
+
+function showToast(message: string, duration = 4000) {
+  const containerId = 'toast-container';
+  let container = document.getElementById(containerId);
+  if (!container) {
+    container = document.createElement('div');
+    container.id = containerId;
+    container.className = 'toast-container';
+    document.body.appendChild(container);
+  }
+
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  toast.textContent = message;
+  container.appendChild(toast);
+
+  // trigger show animation
+  // force reflow
+  // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+  toast.offsetWidth;
+  toast.classList.add('show');
+
+  setTimeout(() => {
+    toast.classList.remove('show');
+    setTimeout(() => toast.remove(), 300);
+  }, duration);
+}
+
 function launchExe(exePath: string) {
+  const now = Date.now();
+  const last = launchLocks.get(exePath) || 0;
+  if (now - last < LAUNCH_DEBOUNCE_MS) {
+    const remaining = Math.ceil((LAUNCH_DEBOUNCE_MS - (now - last)) / 1000);
+    showToast(`${exePath} is already launching — please wait ${remaining}s`, 3000);
+    return;
+  }
+
+  // lock this exe for the debounce duration
+  launchLocks.set(exePath, now);
+  setTimeout(() => launchLocks.delete(exePath), LAUNCH_DEBOUNCE_MS);
+
   // Use Electron's exposed API if available
   if ((window as any).electronAPI?.launchExe) {
     (window as any).electronAPI.launchExe(exePath);
   } else {
-    alert(`Would launch: ${exePath}\n(Requires Electron or backend)`);
+    showToast(`Would launch: ${exePath} — (Requires Electron or backend)`, 4000);
   }
 }
 
