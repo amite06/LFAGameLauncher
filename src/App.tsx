@@ -164,6 +164,73 @@ function App() {
     }
   }, [games]);
 
+  // Listen for main process notifications when a game is killed due to idle
+  useEffect(() => {
+    if ((window as any).electronAPI?.onGameKilled) {
+      (window as any).electronAPI.onGameKilled((info: { exePath: string; pid: number; idleSec: number }) => {
+        showToast(`Closed ${info.exePath} after ${info.idleSec}s of inactivity`);
+      });
+    }
+  }, []);
+
+  // Debug: listen for idle updates from main
+  useEffect(() => {
+    if ((window as any).electronAPI?.onIdleUpdate) {
+      (window as any).electronAPI.onIdleUpdate((info: { exePath: string; pid: number; idleSec: number }) => {
+        // small console log; optionally show a near-timeout toast
+        // eslint-disable-next-line no-console
+        console.log('idle-update', info);
+        if (info.idleSec >= 50 && info.idleSec < 60) {
+          showToast(`Idle ${info.idleSec}s — closing soon`, 2000);
+        }
+      });
+    }
+  }, []);
+
+  // Send activity pings to main whenever the user interacts with the launcher UI
+  useEffect(() => {
+    const notify = () => {
+      // Only notify main when the launcher window is visible and focused
+      try {
+        const visible = document.visibilityState === 'visible';
+        const focused = document.hasFocus();
+        if (visible && focused && (window as any).electronAPI?.notifyActivity) {
+          (window as any).electronAPI.notifyActivity();
+        }
+      } catch (err) {
+        // fallback: still attempt notify
+        if ((window as any).electronAPI?.notifyActivity) (window as any).electronAPI.notifyActivity();
+      }
+    };
+
+    window.addEventListener('mousemove', notify);
+    window.addEventListener('mousedown', notify);
+    window.addEventListener('keydown', notify);
+    window.addEventListener('touchstart', notify);
+
+    // Gamepad actions are already handled; treat gamepad input as activity too
+    let gpAnimation = 0;
+    function pollGamepadForActivity() {
+      const gamepads = navigator.getGamepads();
+      const gp = gamepads[0];
+      if (gp) {
+        const anyPressed = gp.buttons.some(b => b?.pressed);
+        const moved = gp.axes.some(a => Math.abs(a || 0) > 0.1);
+        if (anyPressed || moved) notify();
+      }
+      gpAnimation = requestAnimationFrame(pollGamepadForActivity);
+    }
+    gpAnimation = requestAnimationFrame(pollGamepadForActivity);
+
+    return () => {
+      window.removeEventListener('mousemove', notify);
+      window.removeEventListener('mousedown', notify);
+      window.removeEventListener('keydown', notify);
+      window.removeEventListener('touchstart', notify);
+      cancelAnimationFrame(gpAnimation);
+    };
+  }, []);
+
   if (games.length === 0) return <div className="launcher-container">Loading...</div>;
 
   return (
